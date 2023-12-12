@@ -1,0 +1,119 @@
+
+//apply(plugin = "org.jetbrains.intellij")
+
+
+buildscript {
+  repositories {
+    maven {
+      url = uri("https://plugins.gradle.org/m2/")
+    }
+  }
+  dependencies {
+    classpath("io.spring.gradle:dependency-management-plugin:1.1.4")
+  }
+}
+
+plugins {
+  id 'java-library'
+}
+apply plugin: "io.spring.dependency-management"
+
+subprojects {
+
+  group = 'com.feeddistiller.tweeter'
+  version = '0.0.1-SNAPSHOT'
+
+  apply plugin: 'java'
+  apply plugin: 'io.spring.dependency-management'
+  apply plugin: 'java-library'
+
+  repositories {
+    jcenter()
+  }
+
+  dependencyManagement {
+    imports {
+      mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
+    }
+  }
+}
+
+
+
+
+repositories {
+  maven {
+    url "https://plugins.gradle.org/m2/"
+  }
+  maven {
+    url 'https://plugins.gradle.org/m2/'
+  }
+  maven {
+    url "https://repo1.maven.org/maven2/"
+  }
+  flatDir {
+    dirs 'libs'
+  }
+  mavenCentral()
+}
+
+
+TaskContainer gtasks = tasks;
+
+
+
+//  dependsOn tasks.stream().filter( t -> {
+//    (t.getProject().getName().equals("DistillerTweeter")
+//            && t.getName().equals(    Distiller {
+//        doLast {println "- distiller built"}
+//        afterEvaluate { Project project ->
+//          gtasks.register(project.getTasksByName("assamble", true));
+//        }
+//      }
+
+allprojects {
+
+  task Distiller {
+
+  }
+
+
+
+  if (project.name.startsWith("DistillerTwitter")) {
+    task assemble(dependsOn: buildJar) {}
+  }
+
+//  task DistillerTwitter {
+//    dependsOn tasks.stream().filter(t -> {
+//      printLog(t.getName()) &&
+//              (t.getProject().getName().equals("Distiller")
+//                      && t.getName().equals(":assemble") && printLog("Distiller:assemble? = "))
+//    }).findFirst().orElse(null)
+
+//              ":assemble") && printLog("DistillerTweeter:assemble"))
+//    afterEvaluate { Project project ->
+//      gtasks.register(project.getTasksByName("assemble", true))
+//    }
+  }
+
+
+//  DistillerTwitter {
+//    doLast {println "- distiller twitter built"}
+//    afterEvaluate { Project project ->
+//      gtasks.register(project.getTasksByName("assemble", true))
+//    }
+//  }
+//}
+
+def printLog(String s){
+    System.err.print(s)
+    return 1;
+}
+
+
+
+dependencies {
+
+  implementation project(':Distiller')
+  implementation project(':DistillerTweeter')
+}
