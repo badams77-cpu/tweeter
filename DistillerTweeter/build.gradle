@@ -39,7 +39,7 @@ apply plugin: 'idea'
 apply plugin: 'java-library'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: "org.springframework.boot"
-
+apply plugin: 'application'
 
 
 apply plugin: 'com.github.johnrengelman.shadow'
@@ -200,12 +200,36 @@ test {
     useJUnitPlatform()
 }
 
+sourceSets {
+//        generated {
+    main {
+        java {
+            srcDirs "$projectDir/src/DistillerTweetter"
+        }
+    }
+//        }
+}
+
+
+mainClassName = "DistillerTwitter.Main"
+
+sourceSets {
+    main {
+        java {
+            srcDir new File(rootProject.projectDir, "src/DistillerTweeter").getAbsolutePath()
+        }
+        resources {
+            srcDir new File(rootProject.projectDir, "src/DistillerTweeter").getAbsolutePath()
+        }
+    }
+}
+
 shadowJar {
 //    shadowJar {
     dependsOn compileJava
 
     manifest {
-            attributes 'Main-Class': 'com.foo.bar.MainClass'
+            attributes 'Main-Class': 'DistillerTweeter.Main'
         }
 //
     getDestinationDirectory().set(new File(projectDir, "./build/libs"))
