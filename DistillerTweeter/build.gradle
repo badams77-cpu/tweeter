@@ -200,15 +200,16 @@ test {
     useJUnitPlatform()
 }
 
-sourceSets {
+//sourceSets {
 //        generated {
-    main {
-        java {
-            srcDirs "$projectDir/src/DistillerTweetter"
-        }
-    }
+//    main {
+//        java {
+
+//            srcDirs "$projectDir/src"
 //        }
-}
+//    }
+//        }
+//}
 
 
 mainClassName = "DistillerTwitter.Main"
@@ -217,6 +218,7 @@ sourceSets {
     main {
         java {
             srcDir new File(rootProject.projectDir, "src/DistillerTweeter").getAbsolutePath()
+            output.resourcesDir = file("$projectDir/bin")
         }
         resources {
             srcDir new File(rootProject.projectDir, "src/DistillerTweeter").getAbsolutePath()

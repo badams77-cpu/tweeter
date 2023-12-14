@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DistillerTweeter {
+public class DistillerTweeterOneFeed {
 
     public static int N_Articles=6;
 
@@ -40,7 +40,7 @@ public class DistillerTweeter {
     private String feedname  = "";
 
 
-    public DistillerTweeter(){
+    public DistillerTweeterOneFeed(){
         try {
             fileWriter = new FileWriter(logFile);
             logWriter = new PrintWriter(fileWriter);
@@ -121,9 +121,9 @@ public class DistillerTweeter {
     }
 
     private List<Feed> feedByName(String s){
-        String sql = " SELECT "+Feed.fields+" FROM feeds where feedname='"+s+"'");
+        String sql = " SELECT "+Feed.fields+" FROM feeds where feedname=?";
         try {
-            return dbBean.getBeans(Feed.class, sql);
+            return dbBean.getBeans(Feed.class, sql,s);
         } catch (SQLException e){
             log("Exception "+e+" reading feeds, "+e.getMessage());
         }
