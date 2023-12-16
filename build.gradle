@@ -38,8 +38,10 @@ subprojects {
   }
 }
 
-
-
+jar {
+  dependsOn processResources
+  dependsOn compileJava
+}
 
 repositories {
   maven {
@@ -69,13 +71,35 @@ TaskContainer gtasks = tasks;
 //        afterEvaluate { Project project ->
 //          gtasks.register(project.getTasksByName("assamble", true));
 //        }
-//      }
+//      }s
+
+//subprojects {
+//  Distiller {
+//    task jar {
+//      dependsOn processResources
+//    }
+//  }
+//  DistillerTweeter {
+//    task jar {
+//      dependsOn processResources
+//    }
+//  }
+// }
 
 allprojects {
 
-  task Distiller {
+//  task Distiller.jar {
+//    dependsOn processResources    
+//  }
 
-  }
+//  task DistillerTweeter {
+//   dependsOn processResources
+//  }
+def  procTask = project.tasks.named("processResources")
+Task jarTask = project.tasks.named("jar").get()
+jarTask.dependsOn processResources
+
+
 
 
 
@@ -103,7 +127,8 @@ allprojects {
 //      gtasks.register(project.getTasksByName("assemble", true))
 //    }
 //  }
-//}
+// }
+
 
 def printLog(String s){
     System.err.print(s)

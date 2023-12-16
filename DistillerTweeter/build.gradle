@@ -217,18 +217,39 @@ mainClassName = "DistillerTwitter.Main"
 sourceSets {
     main {
         java {
-            srcDir new File(rootProject.projectDir, "src/DistillerTweeter").getAbsolutePath()
-            output.resourcesDir = file("$projectDir/bin")
+            srcDirs new File(rootProject.projectDir, "Distiller/src").getAbsolutePath()
+            output.resourcesDir = new File(rootProject.projectDir, "DistillerTwitter/bin").getAbsolutePath()
+            output.getClassesDirs().plus(files (new File(rootProject.projectDir, "Distiller/build/classes").getAbsolutePath()))
+//            output.getClassesDirs().plus(files (new File(rootProject.projectDir, "bin").getAbsolutePath()))
         }
         resources {
-            srcDir new File(rootProject.projectDir, "src/DistillerTweeter").getAbsolutePath()
+            srcDirs new File(rootProject.projectDir, "bin").getAbsolutePath()
         }
     }
+}
+
+//task processResources {
+
+//}
+
+buildDir = new File(rootProject.projectDir, "build").getAbsolutePath()
+
+jar.dependsOn processResources
+
+def  procTask = project.tasks.named("processResources")
+Task jarTask = project.tasks.named("jar").get()
+jarTask.dependsOn processResources
+
+tasks.named('jar') {
+    from(sourceSets.main.output)
 }
 
 shadowJar {
 //    shadowJar {
     dependsOn compileJava
+    dependsOn processResources
+    from(sourceSets.main.output)
+
 
     manifest {
             attributes 'Main-Class': 'DistillerTweeter.Main'
