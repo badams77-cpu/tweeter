@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
-public class DistillerTweeterOneFeed {
+public class DistillerTweeterOneFeed extends DistillerTweeter {
 
     public static int N_Articles=6;
 
@@ -86,10 +86,10 @@ public class DistillerTweeterOneFeed {
         LocalDateTime then = LocalDate.now().minusDays(days).atStartOfDay();
         ZonedDateTime zdt = then.atZone(ZoneId.systemDefault());
         String time = ""+zdt.toEpochSecond();
-       String sql = "SELECT "+ Article.fields + " FROM articles where feedid="+feed.getFeedid()+"" +
-               " and datestamp> "+time+" ORDER BY datestamp ASC LIMIT "+N_Articles+";";
+       String sql = "SELECT "+ Article.fields + " FROM articles where feedid=? " +
+               " and datestamp>? ORDER BY datestamp ASC LIMIT ?;";
        try {
-           List<Article> arts = dbBean.getBeans(Article.class, sql);
+           List<Article> arts = dbBean.getBeans(Article.class, sql, feed.getFeed(), tie, N_Articles);
            if (arts.size()>0){
                StringBuffer bufmain = new StringBuffer();
                String HEAD = "New Articles in Feed: "+feed.getFeedname()+"\n";
@@ -149,7 +149,7 @@ public class DistillerTweeterOneFeed {
 
     public static void main(String argv[]){
         DistillerTweeterOneFeed dt = new DistillerTweeterOneFeed();
-        dt.feedPosts(argv[0]);
+        dt.dayPosts(argv[0]);
         dt.finalise();
     }
 

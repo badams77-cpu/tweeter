@@ -100,9 +100,6 @@ Task jarTask = project.tasks.named("jar").get()
 jarTask.dependsOn processResources
 
 
-
-
-
   if (project.name.startsWith("DistillerTwitter")) {
     task assemble(dependsOn: buildJar) {}
   }
